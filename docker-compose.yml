@@ -5,7 +5,7 @@ services:
     build:
       context: ./orders_api
       dockerfile: ../dockerfiles/Dockerfile.fastapi
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./orders_api:/app
     ports:
