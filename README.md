@@ -17,6 +17,7 @@ An application to keep track of incoming orders.
   - Github + Heroku
 
 ## To-dos:
+- Create a diagram mapping the database
 - Complete app
 - Get CI/CD up and running
 - Add build passing badge
