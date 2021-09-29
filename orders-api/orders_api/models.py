@@ -1,7 +1,19 @@
+import logging
+
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from .database import Base
+if __name__ == "__main__":
+    """
+    This is used to run this script directly in order to create an ER diagram
+    """
+    from sqlalchemy.ext.declarative import declarative_base
+
+    Base = declarative_base()
+else:
+    from .database import Base
+
+logger = logging.getLogger(__name__)
 
 
 class Customers(Base):
@@ -32,6 +44,16 @@ class Products(Base):
     product_price = Column(String)
     is_active = Column(Boolean, default=True)
 
+
+if __name__ == "__main__":
+    """
+    This is used to run this script directly in order to create an ER diagram
+    """
+    from eralchemy import render_er
+
+    logger.warning("Running this script directly only generates an ER diagram")
+
+    render_er(Base, "ER_Diagram.png")
 
 # class User(Base):
 #     __tablename__ = "users"

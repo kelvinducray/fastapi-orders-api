@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.future import select
 from sqlalchemy.orm import declarative_base, relationship, selectinload, sessionmaker
 
-from .config import get_settings
+from config import get_settings
 
 settings = get_settings()
 
