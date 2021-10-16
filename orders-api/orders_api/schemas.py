@@ -1,37 +1,32 @@
-from typing import List, Optional
+from pydantic import UUID4, BaseModel, EmailStr
 
-from pydantic import BaseModel
-
-
-class ItemBase(BaseModel):
-    title: str
-    description: Optional[str] = None
+# class ItemBase(BaseModel):
+#     title: str
+#     description: Optional[str] = None
 
 
-class ItemCreate(ItemBase):
-    pass
+# class ItemCreate(ItemBase):
+#     pass
 
 
-class Item(ItemBase):
-    id: int
-    owner_id: int
+# class Item(ItemBase):
+#     id: int
+#     owner_id: int
 
-    class Config:
-        orm_mode = True
-
-
-class UserBase(BaseModel):
-    email: str
+#     class Config:
+#         orm_mode = True
 
 
-class UserCreate(UserBase):
-    password: str
+class Customer(BaseModel):  # Base(BaseModel):
+    email: EmailStr
+    first_name: str
+    last_name: str
 
+    # class CustomerCreate(CustomerBase):
+    #     pass
 
-class User(UserBase):
-    id: int
-    is_active: bool
-    items: List[Item] = []
+    # class Customer(CustomerBase):
+    #     id: UUID4
 
     class Config:
         orm_mode = True

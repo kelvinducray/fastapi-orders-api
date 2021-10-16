@@ -1,24 +1,24 @@
-import asyncio
-
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.future import select
-from sqlalchemy.orm import declarative_base, relationship, selectinload, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-from config import get_settings
+from .config import get_settings
 
 settings = get_settings()
 
+POSTGRES_DSN = (
+    "postgresql+asyncpg://"
+    f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
+    f"@{settings.POSTGRES_HOST}/{settings.POSTGRES_DATABASE}"
+)
+
 engine = create_async_engine(
-    settings.POSTGRES_DSN,
+    POSTGRES_DSN,
     echo=True,
 )
 
-Base = declarative_base()
-
 Session = sessionmaker(
-    bind=None,
+    bind=engine,
     class_=AsyncSession,
     autoflush=True,
     autocommit=False,
@@ -26,10 +26,12 @@ Session = sessionmaker(
     info=None,
 )
 
+Base = declarative_base()
 
-def get_db():
+
+async def get_db():
     try:
         sess = Session()
         yield sess
     finally:
-        sess.close()
+        await sess.close()

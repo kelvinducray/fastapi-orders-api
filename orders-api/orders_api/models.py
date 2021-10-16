@@ -1,35 +1,25 @@
-import logging
+from uuid import uuid4
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-if __name__ == "__main__":
-    """
-    This is used to run this script directly in order to create an ER diagram
-    """
-    from sqlalchemy.ext.declarative import declarative_base
-
-    Base = declarative_base()
-else:
-    from .database import Base
-
-logger = logging.getLogger(__name__)
+from .database import Base
 
 
 class Customers(Base):
     __tablename__ = "customers"
 
-    customer_id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     first_name = Column(String)
     last_name = Column(String)
-    email = Column(String)
-    phone_no = Column(String)
+    email = Column(String, unique=True)
 
 
 class Orders(Base):
     __tablename__ = "customer_orders"
 
-    order_id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     order_date = Column(DateTime)
     customer_id = Column(Integer, unique=True)
     product_id = Column(String)
@@ -39,21 +29,11 @@ class Orders(Base):
 class Products(Base):
     __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     product_name = Column(String, unique=True)
     product_price = Column(String)
     is_active = Column(Boolean, default=True)
 
-
-if __name__ == "__main__":
-    """
-    This is used to run this script directly in order to create an ER diagram
-    """
-    from eralchemy import render_er
-
-    logger.warning("Running this script directly only generates an ER diagram")
-
-    render_er(Base, "ER_Diagram.png")
 
 # class User(Base):
 #     __tablename__ = "users"

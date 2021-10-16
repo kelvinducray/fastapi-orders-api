@@ -1,36 +1,48 @@
+from uuid import uuid4
+
+from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 
 from . import models, schemas
 
 
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+async def get_customer_by_id(db: Session, user_id: int):
+    async with db.begin():
+        stmt = select(models.Customers).filter(models.Customers.id == user_id)
+        result = await db.execute(stmt)
+    return result.fetchone()
 
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
+async def get_customer_by_email(db: Session, email: str):
+    async with db.begin():
+        stmt = select(models.Customers).filter(models.Customers.email == email)
+        result = await db.execute(stmt)
+    return result.fetchone()
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+async def get_customers(db: Session, limit: int = 100):
+    async with db.begin():
+        stmt = select(models.Customers).limit(limit)
+        result = await db.execute(stmt)
+    return result
 
 
-def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+async def create_customer(db: Session, user: schemas.Customer):
+    async with db.begin():
+        new_user = models.Customers(**user)
+        db.add(new_user)
+        await db.commit()
+        await db.flush(new_user)
+    return new_user
 
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
+# def get_items(db: Session, skip: int = 0, limit: int = 100):
+#     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
+# def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
+#     db_item = models.Item(**item.dict(), owner_id=user_id)
+#     db.add(db_item)
+#     db.commit()
+#     db.refresh(db_item)
+#     return db_item
