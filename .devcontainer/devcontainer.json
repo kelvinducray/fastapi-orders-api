@@ -14,7 +14,23 @@
 		}
 	},
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.rulers": [
+			99
+		],
+		"python.pythonPath": "./.venv/bin/python",
+		"python.formatting.provider": "black",
+		"python.sortImports.args": [
+			"--profile",
+			"black"
+		],
+		"[python]": {
+			"editor.codeActionsOnSave": {
+				"source.organizeImports": true
+			}
+		}
+	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
