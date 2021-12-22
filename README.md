@@ -4,20 +4,23 @@ An application to keep track of incoming orders.
 
 ## Skills to demonstrate:
 - Python:
+  - FastAPI
   - OOP
-  - Async
-  - SQL Alchemy ORM
+  - Async programming
+  - SQL Alchemy (+ ORM usage)
   - Language best practices
     - Unit Testing
     - Type checking
     - Linting
 - Docker (and Docker Compose)
 - Database usage (PostgreSQL)
+- Git
 - CI/CD
   - Github + Heroku
 
 ## To-dos:
 - Create a diagram mapping the database
+- Logging config yaml
 - Complete app
 - Get CI/CD up and running
 - Add build passing badge

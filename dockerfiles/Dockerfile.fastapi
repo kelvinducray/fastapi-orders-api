@@ -11,9 +11,9 @@ ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
 RUN apt-get update \
-    && apt-get -y install netcat gcc libpq-dev \
+    && apt-get -y install netcat gcc libpq-dev graphviz \
     && apt-get clean
-# Note: libpq-dev is for Postgres
+# Note: libpq-dev is for Postgres and graphviz is for 'eralchemy' ER diagrams
 
 # Update pip before we install anything
 RUN pip3 install --upgrade pip
