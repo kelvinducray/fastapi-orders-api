@@ -3,15 +3,15 @@ version: '3.8'
 services:
   orders-api:
     build:
-      context: ./orders-api
-      dockerfile: ../dockerfiles/Dockerfile.fastapi
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.fastapi
     command: uvicorn orders_api.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./orders-api:/app
     ports:
       - 8000:8000
     environment:
-      - DEPLOYED_ENVIRONMENT=DEV
+      - DEPLOYED_ENVIRONMENT=${DEPLOYED_ENVIRONMENT}
     depends_on:
       - database
 
@@ -22,5 +22,5 @@ services:
     expose:
       - 5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
